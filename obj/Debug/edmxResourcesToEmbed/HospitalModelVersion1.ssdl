@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HospitalModelVersion1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="HospitalModelVersion1StoreContainer">
+    <EntitySet Name="Doctors" EntityType="HospitalModelVersion1.Store.Doctors" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Positions" EntityType="HospitalModelVersion1.Store.Positions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customers" EntityType="HospitalModelVersion1.Store.Customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Appointments" EntityType="HospitalModelVersion1.Store.Appointments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Schedules" EntityType="HospitalModelVersion1.Store.Schedules" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Services" EntityType="HospitalModelVersion1.Store.Services" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Bills" EntityType="HospitalModelVersion1.Store.Bills" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="DoctorPosition" Association="HospitalModelVersion1.Store.DoctorPosition">
+      <End Role="Doctor" EntitySet="Doctors" />
+      <End Role="Position" EntitySet="Positions" />
+    </AssociationSet>
+    <AssociationSet Name="DoctorAppointment" Association="HospitalModelVersion1.Store.DoctorAppointment">
+      <End Role="Doctor" EntitySet="Doctors" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="CustomerAppointment" Association="HospitalModelVersion1.Store.CustomerAppointment">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="DoctorSchedule" Association="HospitalModelVersion1.Store.DoctorSchedule">
+      <End Role="Doctor" EntitySet="Doctors" />
+      <End Role="Schedule" EntitySet="Schedules" />
+    </AssociationSet>
+    <AssociationSet Name="AppointmentBill" Association="HospitalModelVersion1.Store.AppointmentBill">
+      <End Role="Appointment" EntitySet="Appointments" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+    <AssociationSet Name="ServiceBill" Association="HospitalModelVersion1.Store.ServiceBill">
+      <End Role="Service" EntitySet="Services" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Doctors">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PositionId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Positions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PositionName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="BirthDate" Type="datetime" Nullable="false" />
+    <Property Name="EnsuranceNumber" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Appointments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Schedules">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="DoctorId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="WeekDay" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DayBegin" Type="datetime" Nullable="false" />
+    <Property Name="DayEnd" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Services">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="2" />
+    <Property Name="ServiceName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bills">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AppointmentId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <Association Name="DoctorPosition">
+    <End Role="Doctor" Type="HospitalModelVersion1.Store.Doctors" Multiplicity="*" />
+    <End Role="Position" Type="HospitalModelVersion1.Store.Positions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Doctor">
+        <PropertyRef Name="PositionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DoctorAppointment">
+    <End Role="Doctor" Type="HospitalModelVersion1.Store.Doctors" Multiplicity="1" />
+    <End Role="Appointment" Type="HospitalModelVersion1.Store.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doctor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="DoctorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomerAppointment">
+    <End Role="Customer" Type="HospitalModelVersion1.Store.Customers" Multiplicity="1" />
+    <End Role="Appointment" Type="HospitalModelVersion1.Store.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DoctorSchedule">
+    <End Role="Doctor" Type="HospitalModelVersion1.Store.Doctors" Multiplicity="1" />
+    <End Role="Schedule" Type="HospitalModelVersion1.Store.Schedules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doctor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="DoctorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AppointmentBill">
+    <End Role="Appointment" Type="HospitalModelVersion1.Store.Appointments" Multiplicity="1" />
+    <End Role="Bill" Type="HospitalModelVersion1.Store.Bills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appointment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="AppointmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ServiceBill">
+    <End Role="Service" Type="HospitalModelVersion1.Store.Services" Multiplicity="1" />
+    <End Role="Bill" Type="HospitalModelVersion1.Store.Bills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Service">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

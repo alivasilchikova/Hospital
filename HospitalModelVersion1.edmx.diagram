@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7787b72fc73644e5833a4644ace37a62" Name="Diagram1" >
+        <EntityTypeShape EntityType="HospitalModelVersion1.Doctor" Width="1.5" PointX="4" PointY="0.5" />
+        <EntityTypeShape EntityType="HospitalModelVersion1.Position" Width="1.5" PointX="1.5" PointY="0.5" />
+        <AssociationConnector Association="HospitalModelVersion1.DoctorPosition" />
+        <EntityTypeShape EntityType="HospitalModelVersion1.Customer" Width="1.5" PointX="8.125" PointY="0.5" />
+        <EntityTypeShape EntityType="HospitalModelVersion1.Appointment" Width="1.5" PointX="6.125" PointY="2.5" />
+        <EntityTypeShape EntityType="HospitalModelVersion1.Schedule" Width="1.5" PointX="1.125" PointY="2.75" />
+        <EntityTypeShape EntityType="HospitalModelVersion1.Service" Width="1.5" PointX="3.875" PointY="4" />
+        <EntityTypeShape EntityType="HospitalModelVersion1.Bill" Width="1.5" PointX="8.875" PointY="4.25" />
+        <AssociationConnector Association="HospitalModelVersion1.DoctorAppointment" />
+        <AssociationConnector Association="HospitalModelVersion1.CustomerAppointment" />
+        <AssociationConnector Association="HospitalModelVersion1.DoctorSchedule" />
+        <AssociationConnector Association="HospitalModelVersion1.AppointmentBill" />
+        <AssociationConnector Association="HospitalModelVersion1.ServiceBill" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,140 @@
+﻿<Window x:Class="HospitalApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HospitalApp"
+        xmlns:viewModels="clr-namespace:HospitalApp.Data"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="435" Width="700" 
+        DataContext="{Binding Source={StaticResource ViewModel}}"
+        >
+    <Grid>
+
+        <!--<TabControl x:Name="MainMenu" Height="400" VerticalAlignment="Bottom">-->
+        <TabControl Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Grid.ColumnSpan="2" SelectedItem="{Binding MenuTabItem}">
+            <TabItem Header="Врачи">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="373*"/>
+                        <ColumnDefinition Width="313*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="70*"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding Doctors}" SelectedItem="{Binding SelectedDoctor}"
+                
+			AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="False"
+			CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" Grid.RowSpan="2" Margin="0,0,44,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО" Width="33*" Binding="{Binding FIO}"/>
+                            <DataGridTextColumn Header="Должность" Width="33*" Binding="{Binding Position.PositionName}"/>
+                            <DataGridTextColumn Header="Телефон" Width="33*" Binding="{Binding PhoneNumber}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" CanUserReorderColumns="False"
+                      CanUserResizeColumns="False" CanUserAddRows="False" ItemsSource="{Binding SelectedDoctor.Schedules}" 
+                     IsReadOnly="True" Margin="0,0,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="День недели" Width="20*" Binding="{Binding WeekDay}"/>
+                            <DataGridTextColumn Header="Начало рабочего дня" Width="30*" Binding="{Binding DayBegin, StringFormat=HH:mm:ss}"/>
+                            <DataGridTextColumn Header="Конец рабочего дня" Width="30*" Binding="{Binding DayEnd, StringFormat=HH:mm:ss}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button  Content="Редактировать" Margin="20,5,0,0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Command="{Binding AddCommand}" Grid.Column="1" Height="20"/>
+                    <Button  Content="Добавить" IsDefault="True" HorizontalAlignment="Left" Margin="120,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="76" Command="{Binding AddCommand}" Grid.Column="1" Height="20"/>
+                    <Button  Content="Удалить" HorizontalAlignment="Left" Margin="220,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="76" Command="{Binding AddCommand}" Grid.Column="1" Height="20"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Пациенты">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="333*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90*"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedItem}"
+     
+                        AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False"
+                              CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" Grid.ColumnSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО" Width="33*" Binding="{Binding FIO}"/>
+                            <!--<DataGridTextColumn Header="Имя Пациента" Width="33*" Binding="{Binding Person.Name}"/>-->
+                            <DataGridTextColumn Header="Дата рождения" Width="33*" Binding="{Binding BirthDate}"/>
+                            <DataGridTextColumn Header="Телефон" Width="33*" Binding="{Binding PhoneNumber}"/>
+                            <DataGridTextColumn Header="Номер страхового полиса" Width="33*" Binding="{Binding EnsuranceNumber}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button  Content="Назначить прием" HorizontalAlignment="Left" Margin="530,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="123" Command="{Binding AddAppointmentCommand}" Grid.Column="1"/>
+                    <Button  Content="Просмотреть приемы" HorizontalAlignment="Left" Margin="390,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="125" Command="{Binding ViewAppointmentCommand}" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Список услуг">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90*"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedItem}" 
+						AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False"
+						CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование" Width="40*" Binding="{Binding ServiceName}"/>
+                            <DataGridTextColumn Header="Цена" Width="60*" Binding="{Binding Cost}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button  Content="Редактировать" Margin="20,5,0,0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Command="{Binding AddCommand}" Grid.Column="1" Height="20"/>
+                    <Button  Content="Добавить" IsDefault="True" HorizontalAlignment="Left" Margin="120,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="76" Command="{Binding AddServiceCommand}" Grid.Column="1" Height="20"/>
+                    <Button  Content="Удалить" HorizontalAlignment="Left" Margin="220,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="76" Command="{Binding AddCommand}" Grid.Column="1" Height="20"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Список должностей">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90*"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding Positions}" SelectedItem="{Binding MenuTabItem}"
+                
+			AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="False"
+			CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" Grid.ColumnSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Должность" Width="30*" Binding="{Binding PositionName}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button  Content="Редактировать" Margin="20,5,0,0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Command="{Binding AddCommand}" Grid.Column="1" Height="20"/>
+                    <Button  Content="Добавить" IsDefault="True" HorizontalAlignment="Left" Margin="120,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="76" Command="{Binding PositionCommand}" Grid.Column="1" Height="20"/>
+                    <Button  Content="Удалить" HorizontalAlignment="Left" Margin="220,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="76" Command="{Binding AddCommand}" Grid.Column="1" Height="20"/>
+
+                </Grid>
+            </TabItem>
+                    <TabItem Header="История">
+                <Grid>
+                    <DataGrid ItemsSource="{Binding ViewCollection}" 
+						AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False"
+						CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО пациента" Width="11*" Binding="{Binding PatientSurname}"/>
+                            <!--<DataGridTextColumn Header="Имя Пациента" Width="10*" Binding="{Binding PatientName}"/>-->
+                            <DataGridTextColumn Header="ФИО Врача" Width="10*" Binding="{Binding DoctorSurname}"/>
+                            <!--<DataGridTextColumn Header="Имя Врача" Width="10*" Binding="{Binding DoctorName}"/>-->
+                            <DataGridTextColumn Header="Дата и время приема" Width="15*"  Binding="{Binding DateTime}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>
